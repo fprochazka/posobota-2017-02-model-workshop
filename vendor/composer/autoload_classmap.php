@@ -1467,6 +1467,11 @@ return array(
     'Workshop\\SocialSecurity\\SocialSecurityFacade' => $baseDir . '/src/SocialSecurity/SocialSecurityFacade.php',
     'Workshop\\SocialSecurity\\SocialSecurityUserDataResult' => $baseDir . '/src/SocialSecurity/SocialSecurityUserDataResult.php',
     'Workshop\\SoleProprietorship\\SoleProprietorship' => $baseDir . '/src/SoleProprietorship/SoleProprietorship.php',
+    'Workshop\\SoleProprietorship\\SoleProprietorshipFacade' => $baseDir . '/src/SoleProprietorship/SoleProprietorshipFacade.php',
+    'Workshop\\SoleProprietorship\\SoleProprietorshipRepository' => $baseDir . '/src/SoleProprietorship/SoleProprietorshipRepository.php',
+    'Workshop\\SoleProprietorship\\SoleProprietorshipRequest' => $baseDir . '/src/SoleProprietorship/SoleProprietorshipRequest.php',
+    'Workshop\\SoleProprietorship\\SoleProprietorshipService' => $baseDir . '/src/SoleProprietorship/SoleProprietorshipService.php',
     'Workshop\\SoleProprietorship\\SoleProprietorshipType' => $baseDir . '/src/SoleProprietorship/SoleProprietorshipType.php',
     'Workshop\\SoleProprietorship\\SoleProprietorshipTypes' => $baseDir . '/src/SoleProprietorship/SoleProprietorshipTypes.php',
+    'Workshop\\SoleProprietorship\\exceptions\\SoleProprietorshipRequestAlreadySubmittedException' => $baseDir . '/src/SoleProprietorship/exceptions/SoleProprietorshipRequestAlreadySubmittedException.php',
 );
