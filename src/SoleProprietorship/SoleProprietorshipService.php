@@ -17,6 +17,10 @@ class SoleProprietorshipService
 	): SoleProprietorshipRequest
 	{
 		if ($proprietorshipRequest !== null) {
+			if ($socialSecurityNumber !== $proprietorshipRequest->getSocialSecurityNumber()) {
+				throw new \LogicException("You've fucked up dude");
+			}
+
 			throw new SoleProprietorshipRequestAlreadySubmittedException(
 				$name,
 				$socialSecurityNumber
