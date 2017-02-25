@@ -19,8 +19,9 @@ doctrine:
 	dbname: posobota_2017_02
 ```
 
-2. ???
-3. profit
+3. create schema `orm:schema-tool:create`
+4. ???
+5. profit
 
 ## implement
 
