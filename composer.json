@@ -2,7 +2,12 @@
 	"name": "nette/web-project",
 	"description": "Nette: Standard Web Project",
 	"type": "project",
-	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"license": [
+		"MIT",
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
 	"require": {
 		"php": ">= 7.1",
 		"nette/application": "^2.4",
@@ -22,16 +27,20 @@
 		"guzzlehttp/guzzle": "^6.2",
 		"kdyby/doctrine": "^3.1",
 		"kdyby/strict-objects": "^1.0",
-		"ramsey/uuid-doctrine": "1.2"
+		"ramsey/uuid-doctrine": "1.2",
+		"vasek-purchart/doctrine-date-time-immutable-types": "^0.4"
 	},
 	"autoload": {
-		"classmap": ["app/"],
+		"classmap": [
+			"app/"
+		],
 		"psr-4": {
 			"Workshop\\": "src/"
 		}
 	},
 	"require-dev": {
-		"nette/tester": "^1.6"
+		"nette/tester": "^1.6",
+		"mockery/mockery": "@dev"
 	},
 	"config": {
 		"bin-dir": "bin",

@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Workshop\\' => array($baseDir . '/src'),
+    'VasekPurchart\\Doctrine\\Type\\DateTimeImmutable\\' => array($vendorDir . '/vasek-purchart/doctrine-date-time-immutable-types/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
