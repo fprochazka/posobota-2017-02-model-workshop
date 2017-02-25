@@ -24,6 +24,11 @@ class PhpNamespace
 {
 	use Nette\SmartObject;
 
+	private static $keywords = [
+		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1,
+		'callable' => 1, 'iterable' => 1, 'void' => 1, 'self' => 1, 'parent' => 1,
+	];
+
 	/** @var string */
 	private $name;
 
@@ -37,16 +42,22 @@ class PhpNamespace
 	private $classes = [];
 
 
+	/**
+	 * @param  string|NULL
+	 */
 	public function __construct($name = NULL)
 	{
-		$this->setName($name);
+		if ($name && !Helpers::isNamespace($name)) {
+			throw new Nette\InvalidArgumentException("Value '$name' is not valid name.");
+		}
+		$this->name = (string) $name;
 	}
 
 
 	/** @deprecated */
 	public function setName($name)
 	{
-		$this->name = (string) $name;
+		$this->__construct($name);
 		return $this;
 	}
 
@@ -133,7 +144,7 @@ class PhpNamespace
 	 */
 	public function unresolveName($name)
 	{
-		if (in_array(strtolower($name), ['self', 'parent', 'array', 'callable', 'string', 'bool', 'float', 'int', ''], TRUE)) {
+		if (isset(self::$keywords[strtolower($name)]) || $name === '') {
 			return $name;
 		}
 		$name = ltrim($name, '\\');

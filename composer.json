@@ -18,7 +18,11 @@
 		"latte/latte": "^2.4",
 		"tracy/tracy": "^2.4",
 		"consistence/consistence": "^0.22",
-		"kdyby/doctrine": "^3.1"
+		"consistence/consistence-doctrine": "^0.6",
+		"guzzlehttp/guzzle": "^6.2",
+		"kdyby/doctrine": "^3.1",
+		"kdyby/strict-objects": "^1.0",
+		"ramsey/uuid-doctrine": "1.2"
 	},
 	"autoload": {
 		"classmap": ["app/"],

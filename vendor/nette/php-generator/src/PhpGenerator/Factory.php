@@ -17,7 +17,9 @@ class Factory
 {
 	use Nette\SmartObject;
 
-
+	/**
+	 * @return ClassType
+	 */
 	public function fromClassReflection(\ReflectionClass $from)
 	{
 		if (PHP_VERSION_ID >= 70000 && $from->isAnonymous()) {
@@ -37,13 +39,13 @@ class Factory
 		$props = $methods = [];
 		foreach ($from->getProperties() as $prop) {
 			if ($prop->isDefault() && $prop->getDeclaringClass()->getName() === $from->getName()) {
-				$props[$prop->getName()] = $this->fromPropertyReflection($prop);
+				$props[] = $this->fromPropertyReflection($prop);
 			}
 		}
 		$class->setProperties($props);
 		foreach ($from->getMethods() as $method) {
 			if ($method->getDeclaringClass()->getName() === $from->getName()) {
-				$methods[$method->getName()] = $this->fromFunctionReflection($method)->setNamespace($class->getNamespace());
+				$methods[] = $this->fromMethodReflection($method)->setNamespace($class->getNamespace());
 			}
 		}
 		$class->setMethods($methods);
@@ -51,22 +53,19 @@ class Factory
 	}
 
 
-	public function fromFunctionReflection(\ReflectionFunctionAbstract $from)
+	/**
+	 * @return Method
+	 */
+	public function fromMethodReflection(\ReflectionMethod $from)
 	{
-		$method = new Method($from->isClosure() ? NULL : $from->getName());
-		$params = [];
-		foreach ($from->getParameters() as $param) {
-			$params[$param->getName()] = $this->fromParameterReflection($param);
-		}
-		$method->setParameters($params);
-		if ($from instanceof \ReflectionMethod) {
-			$isInterface = $from->getDeclaringClass()->isInterface();
-			$method->setStatic($from->isStatic());
-			$method->setVisibility($from->isPrivate() ? 'private' : ($from->isProtected() ? 'protected' : ($isInterface ? NULL : 'public')));
-			$method->setFinal($from->isFinal());
-			$method->setAbstract($from->isAbstract() && !$isInterface);
-			$method->setBody($from->isAbstract() ? FALSE : '');
-		}
+		$method = new Method($from->getName());
+		$method->setParameters(array_map([$this, 'fromParameterReflection'], $from->getParameters()));
+		$method->setStatic($from->isStatic());
+		$isInterface = $from->getDeclaringClass()->isInterface();
+		$method->setVisibility($from->isPrivate() ? 'private' : ($from->isProtected() ? 'protected' : ($isInterface ? NULL : 'public')));
+		$method->setFinal($from->isFinal());
+		$method->setAbstract($from->isAbstract() && !$isInterface);
+		$method->setBody($from->isAbstract() ? FALSE : '');
 		$method->setReturnReference($from->returnsReference());
 		$method->setVariadic($from->isVariadic());
 		$method->setComment(Helpers::unformatDocComment($from->getDocComment()));
@@ -78,6 +77,29 @@ class Factory
 	}
 
 
+	/**
+	 * @return GlobalFunction|Closure
+	 */
+	public function fromFunctionReflection(\ReflectionFunction $from)
+	{
+		$function = $from->isClosure() ? new Closure : new GlobalFunction($from->getName());
+		$function->setParameters(array_map([$this, 'fromParameterReflection'], $from->getParameters()));
+		$function->setReturnReference($from->returnsReference());
+		$function->setVariadic($from->isVariadic());
+		if (!$from->isClosure()) {
+			$function->setComment(Helpers::unformatDocComment($from->getDocComment()));
+		}
+		if (PHP_VERSION_ID >= 70000 && $from->hasReturnType()) {
+			$function->setReturnType((string) $from->getReturnType());
+			$function->setReturnNullable($from->getReturnType()->allowsNull());
+		}
+		return $function;
+	}
+
+
+	/**
+	 * @return Parameter
+	 */
 	public function fromParameterReflection(\ReflectionParameter $from)
 	{
 		$param = new Parameter($from->getName());
@@ -109,6 +131,9 @@ class Factory
 	}
 
 
+	/**
+	 * @return Property
+	 */
 	public function fromPropertyReflection(\ReflectionProperty $from)
 	{
 		$prop = new Property($from->getName());

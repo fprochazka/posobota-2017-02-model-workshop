@@ -16,9 +16,7 @@ use Nette;
 class Parameter
 {
 	use Nette\SmartObject;
-
-	/** @var string */
-	private $name = '';
+	use Traits\NameAware;
 
 	/** @var bool */
 	private $reference = FALSE;
@@ -42,33 +40,8 @@ class Parameter
 	 */
 	public static function from(\ReflectionParameter $from)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use Nette\PhpGenerator\Factory.', E_USER_DEPRECATED);
 		return (new Factory)->fromParameterReflection($from);
-	}
-
-
-	/**
-	 * @param  string  without $
-	 */
-	public function __construct($name = '')
-	{
-		$this->setName($name);
-	}
-
-
-	/** @deprecated */
-	public function setName($name)
-	{
-		$this->name = (string) $name;
-		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
 	}
 
 

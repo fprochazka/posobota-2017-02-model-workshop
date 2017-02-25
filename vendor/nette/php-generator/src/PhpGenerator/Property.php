@@ -13,8 +13,13 @@ use Nette;
 /**
  * Class property description.
  */
-class Property extends Member
+class Property
 {
+	use Nette\SmartObject;
+	use Traits\NameAware;
+	use Traits\VisibilityAware;
+	use Traits\CommentAware;
+
 	/** @var mixed */
 	public $value;
 
@@ -28,6 +33,7 @@ class Property extends Member
 	 */
 	public static function from(\ReflectionProperty $from)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use Nette\PhpGenerator\Factory.', E_USER_DEPRECATED);
 		return (new Factory)->fromPropertyReflection($from);
 	}
 
