@@ -3,7 +3,7 @@
 namespace Workshop\SoleProprietorship;
 
 use Kdyby\StrictObjects\Scream;
-use Workshop\SoleProprietorship\exceptions\SoleProprietorshipRequestAlreadySubmittedException;
+use Workshop\SocialSecurity\SocialSecurityUserDataResult;
 
 class SoleProprietorshipService
 {
@@ -12,9 +12,32 @@ class SoleProprietorshipService
 
 	public function createRequest(
 		?SoleProprietorshipRequest $proprietorshipRequest,
+		SocialSecurityUserDataResult $socialSecurityUserData,
 		string $name,
 		int $socialSecurityNumber
 	): SoleProprietorshipRequest
+	{
+		$this->checkCreateRequestRequirements(
+			$proprietorshipRequest,
+			$name,
+			$socialSecurityNumber
+		);
+
+		if (!$socialSecurityUserData->isReliable()) {
+			throw new SoleProprietorshipRequestDeniedException(
+				$name,
+				$socialSecurityNumber
+			);
+		}
+
+		return new SoleProprietorshipRequest($name, $socialSecurityNumber);
+	}
+
+	public function checkCreateRequestRequirements(
+		?SoleProprietorshipRequest $proprietorshipRequest,
+		string $name,
+		int $socialSecurityNumber
+	)
 	{
 		if ($proprietorshipRequest !== null) {
 			if ($socialSecurityNumber !== $proprietorshipRequest->getSocialSecurityNumber()) {
@@ -26,8 +49,6 @@ class SoleProprietorshipService
 				$socialSecurityNumber
 			);
 		}
-
-		return new SoleProprietorshipRequest($name, $socialSecurityNumber);
 	}
 
 }

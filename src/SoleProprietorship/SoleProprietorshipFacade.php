@@ -4,6 +4,7 @@ namespace Workshop\SoleProprietorship;
 
 use Doctrine\ORM\EntityManager;
 use Kdyby\StrictObjects\Scream;
+use Workshop\SocialSecurity\SocialSecurityFacade;
 
 class SoleProprietorshipFacade
 {
@@ -11,9 +12,9 @@ class SoleProprietorshipFacade
 	use Scream;
 
 	/**
-	 * @var \Doctrine\ORM\EntityManager
+	 * @var \Workshop\SoleProprietorship\SoleProprietorshipService
 	 */
-	private $entityManager;
+	private $soleProprietorshipService;
 
 	/**
 	 * @var \Workshop\SoleProprietorship\SoleProprietorshipRepository
@@ -21,19 +22,26 @@ class SoleProprietorshipFacade
 	private $soleProprietorshipRepository;
 
 	/**
-	 * @var \Workshop\SoleProprietorship\SoleProprietorshipService
+	 * @var \Workshop\SocialSecurity\SocialSecurityFacade
 	 */
-	private $soleProprietorshipService;
+	private $socialSecurityFacade;
+
+	/**
+	 * @var \Doctrine\ORM\EntityManager
+	 */
+	private $entityManager;
 
 	public function __construct(
 		SoleProprietorshipService $soleProprietorshipService,
 		SoleProprietorshipRepository $soleProprietorshipRepository,
+		SocialSecurityFacade $socialSecurityFacade,
 		EntityManager $entityManager
 	)
 	{
-		$this->entityManager = $entityManager;
-		$this->soleProprietorshipRepository = $soleProprietorshipRepository;
 		$this->soleProprietorshipService = $soleProprietorshipService;
+		$this->soleProprietorshipRepository = $soleProprietorshipRepository;
+		$this->socialSecurityFacade = $socialSecurityFacade;
+		$this->entityManager = $entityManager;
 	}
 
 	public function createRequest(
@@ -44,8 +52,18 @@ class SoleProprietorshipFacade
 		$existingSoleProprietorshipRequest = $this->soleProprietorshipRepository
 			->findSoleProprietorshipRequestBySocialSecurityNumber($socialSecurityNumber);
 
+		$this->soleProprietorshipService->checkCreateRequestRequirements(
+			$existingSoleProprietorshipRequest,
+			$name,
+			$socialSecurityNumber
+		);
+
+		$socialSecurityUserData = $this->socialSecurityFacade
+			->getUserData($socialSecurityNumber);
+
 		$soleProprietorshipRequest = $this->soleProprietorshipService->createRequest(
 			$existingSoleProprietorshipRequest,
+			$socialSecurityUserData,
 			$name,
 			$socialSecurityNumber
 		);

@@ -1654,15 +1654,17 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Workshop\\HealthInsurance\\HealthInsuranceUserDataResult' => __DIR__ . '/../..' . '/src/HealthInsurance/HealthInsuranceUserDataResult.php',
         'Workshop\\Mock\\ExternalService' => __DIR__ . '/../..' . '/src/Mock/ExternalService.php',
         'Workshop\\SocialSecurity\\SocialSecurityFacade' => __DIR__ . '/../..' . '/src/SocialSecurity/SocialSecurityFacade.php',
+        'Workshop\\SocialSecurity\\SocialSecurityServiceCommunicationFailedException' => __DIR__ . '/../..' . '/src/SocialSecurity/exceptions/SocialSecurityServiceCommunicationFailedException.php',
         'Workshop\\SocialSecurity\\SocialSecurityUserDataResult' => __DIR__ . '/../..' . '/src/SocialSecurity/SocialSecurityUserDataResult.php',
         'Workshop\\SoleProprietorship\\SoleProprietorship' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorship.php',
         'Workshop\\SoleProprietorship\\SoleProprietorshipFacade' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorshipFacade.php',
         'Workshop\\SoleProprietorship\\SoleProprietorshipRepository' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorshipRepository.php',
         'Workshop\\SoleProprietorship\\SoleProprietorshipRequest' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorshipRequest.php',
+        'Workshop\\SoleProprietorship\\SoleProprietorshipRequestAlreadySubmittedException' => __DIR__ . '/../..' . '/src/SoleProprietorship/exceptions/SoleProprietorshipRequestAlreadySubmittedException.php',
+        'Workshop\\SoleProprietorship\\SoleProprietorshipRequestDeniedException' => __DIR__ . '/../..' . '/src/SoleProprietorship/exceptions/SoleProprietorshipRequestDeniedException.php',
         'Workshop\\SoleProprietorship\\SoleProprietorshipService' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorshipService.php',
         'Workshop\\SoleProprietorship\\SoleProprietorshipType' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorshipType.php',
         'Workshop\\SoleProprietorship\\SoleProprietorshipTypes' => __DIR__ . '/../..' . '/src/SoleProprietorship/SoleProprietorshipTypes.php',
-        'Workshop\\SoleProprietorship\\exceptions\\SoleProprietorshipRequestAlreadySubmittedException' => __DIR__ . '/../..' . '/src/SoleProprietorship/exceptions/SoleProprietorshipRequestAlreadySubmittedException.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
