@@ -1,4 +1,13 @@
 parameters:
+	varDir: %appDir%/../var
+	srcDir: %appDir%/../src
+
+
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
 
 
 application:
@@ -11,5 +20,24 @@ session:
 	expiration: 14 days
 
 
-services:
-	router: App\RouterFactory::createRouter
+doctrine:
+	metadata:
+		Workshop: %srcDir%
+	types:
+		uuid: Ramsey\Uuid\Doctrine\UuidType
+		uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType
+		float_enum: Consistence\Doctrine\Enum\Type\FloatEnumType
+		integer_enum: Consistence\Doctrine\Enum\Type\IntegerEnumType
+		string_enum: Consistence\Doctrine\Enum\Type\StringEnumType
+
+
+#console:
+#	application: false
+
+
+events:
+	debugger: false
+
+
+includes:
+	- services.neon

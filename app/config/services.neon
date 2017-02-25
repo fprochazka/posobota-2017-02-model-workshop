@@ -1,0 +1,7 @@
+services:
+	router: App\RouterFactory::createRouter
+
+
+	doctrine.default.evm:
+		setup:
+			- addEventListener(::constant("Kdyby\\Doctrine\\Events::postLoad"), Consistence\Doctrine\Enum\EnumPostLoadEntityListener())
