@@ -48,6 +48,12 @@ class SoleProprietorshipRequest
 	 */
 	private $createdAt;
 
+	/**
+	 * @ORM\Column(type="datetime_immutable", nullable=true)
+	 * @var DateTimeImmutable|null
+	 */
+	private $solvedAt;
+
 	public function __construct(
 		string $name,
 		int $socialSecurityNumber,
@@ -82,14 +88,19 @@ class SoleProprietorshipRequest
 		return $this->citizenSocialSecurity;
 	}
 
-	public function dropForeignPersonalInfo()
-	{
-		$this->citizenSocialSecurity = null;
-	}
-
 	public function getCreatedAt(): \DateTimeImmutable
 	{
 		return $this->createdAt;
+	}
+
+	public function markSolved(IDateTimeProvider $dateTimeProvider)
+	{
+		if ($this->solvedAt !== null) {
+			throw new SoleProprietorshipRequestIsAlreadySolvedException($this);
+		}
+
+		$this->solvedAt = $dateTimeProvider->getNow();
+		$this->citizenSocialSecurity = null;
 	}
 
 }
