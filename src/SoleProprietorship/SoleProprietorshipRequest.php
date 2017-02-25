@@ -2,9 +2,12 @@
 
 namespace Workshop\SoleProprietorship;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\StrictObjects\Scream;
 use Ramsey\Uuid\Uuid;
+use Workshop\DateTime\IDateTimeProvider;
+use Workshop\SocialSecurity\CitizenSocialSecurity;
 
 /**
  * @ORM\Entity()
@@ -33,11 +36,30 @@ class SoleProprietorshipRequest
 	 */
 	private $socialSecurityNumber;
 
-	public function __construct(string $name, int $socialSecurityNumber)
+	/**
+	 * @ORM\ManyToOne(targetEntity=CitizenSocialSecurity::class, cascade={"persist"})
+	 * @var CitizenSocialSecurity|null
+	 */
+	private $citizenSocialSecurity;
+
+	/**
+	 * @ORM\Column(type="datetime_immutable")
+	 * @var DateTimeImmutable
+	 */
+	private $createdAt;
+
+	public function __construct(
+		string $name,
+		int $socialSecurityNumber,
+		CitizenSocialSecurity $citizenSocialSecurity,
+		IDateTimeProvider $dateTimeProvider
+	)
 	{
 		$this->id = Uuid::uuid4();
 		$this->name = $name;
 		$this->socialSecurityNumber = $socialSecurityNumber;
+		$this->citizenSocialSecurity = $citizenSocialSecurity;
+		$this->createdAt = $dateTimeProvider->getNow();
 	}
 
 	public function getId(): Uuid
@@ -53,6 +75,21 @@ class SoleProprietorshipRequest
 	public function getSocialSecurityNumber(): int
 	{
 		return $this->socialSecurityNumber;
+	}
+
+	public function getCitizenSocialSecurity(): ?CitizenSocialSecurity
+	{
+		return $this->citizenSocialSecurity;
+	}
+
+	public function dropForeignPersonalInfo()
+	{
+		$this->citizenSocialSecurity = null;
+	}
+
+	public function getCreatedAt(): \DateTimeImmutable
+	{
+		return $this->createdAt;
 	}
 
 }

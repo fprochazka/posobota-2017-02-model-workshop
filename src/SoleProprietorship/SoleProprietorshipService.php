@@ -3,12 +3,24 @@
 namespace Workshop\SoleProprietorship;
 
 use Kdyby\StrictObjects\Scream;
+use Workshop\DateTime\IDateTimeProvider;
+use Workshop\SocialSecurity\CitizenSocialSecurity;
 use Workshop\SocialSecurity\SocialSecurityUserDataResult;
 
 class SoleProprietorshipService
 {
 
 	use Scream;
+
+	/**
+	 * @var \Workshop\DateTime\IDateTimeProvider
+	 */
+	private $dateTimeProvider;
+
+	public function __construct(IDateTimeProvider $dateTimeProvider)
+	{
+		$this->dateTimeProvider = $dateTimeProvider;
+	}
 
 	public function createRequest(
 		?SoleProprietorshipRequest $proprietorshipRequest,
@@ -30,7 +42,15 @@ class SoleProprietorshipService
 			);
 		}
 
-		return new SoleProprietorshipRequest($name, $socialSecurityNumber);
+		return new SoleProprietorshipRequest(
+			$name,
+			$socialSecurityNumber,
+			new CitizenSocialSecurity(
+				$socialSecurityNumber,
+				$socialSecurityUserData->isReliable()
+			),
+			$this->dateTimeProvider
+		);
 	}
 
 	public function checkCreateRequestRequirements(

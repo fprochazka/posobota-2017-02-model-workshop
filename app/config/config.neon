@@ -30,6 +30,10 @@ doctrine:
 		integer_enum: Consistence\Doctrine\Enum\Type\IntegerEnumType
 		string_enum: Consistence\Doctrine\Enum\Type\StringEnumType
 
+		date_immutable: VasekPurchart\Doctrine\Type\DateTimeImmutable\DateImmutableType
+		datetime_immutable: VasekPurchart\Doctrine\Type\DateTimeImmutable\DateTimeImmutableType
+		datetimetz_immutable: VasekPurchart\Doctrine\Type\DateTimeImmutable\DateTimeTzImmutableType
+		time_immutable: VasekPurchart\Doctrine\Type\DateTimeImmutable\TimeImmutableType
 
 #console:
 #	application: false
