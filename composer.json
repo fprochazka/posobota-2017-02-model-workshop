@@ -28,7 +28,8 @@
 		"kdyby/doctrine": "^3.1",
 		"kdyby/strict-objects": "^1.0",
 		"ramsey/uuid-doctrine": "1.2",
-		"vasek-purchart/doctrine-date-time-immutable-types": "^0.4"
+		"vasek-purchart/doctrine-date-time-immutable-types": "^0.4",
+		"dg/composer-cleaner": "^0.3.0"
 	},
 	"autoload": {
 		"classmap": [
